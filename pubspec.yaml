@@ -36,6 +36,12 @@ dependencies:
   
   
   cupertino_icons: ^1.0.2
+  get: ^4.6.5
+  google_fonts: ^3.0.1
+  http: ^0.13.5
+  cached_network_image: ^3.2.3
+  iconsax: ^0.0.8
+  just_audio: ^0.9.30
 
 dev_dependencies:
   flutter_test:
@@ -56,12 +62,19 @@ flutter:
 
   
   
-  
+  fonts:
+    - family: Gotham
+      fonts:
+        - asset: assets/fonts/GothamMedium.ttf
+        - asset: assets/fonts/GothamLight.ttf
+          weight: 400
+        - asset: assets/fonts/GothamBold.ttf
+          weight: 600
   uses-material-design: true
   assets:
     - assets/
-    - assets/images
-    - assets/logo
+    - assets/images/
+    - assets/logo/
   
   
   
