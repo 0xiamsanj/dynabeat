@@ -2,13 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dynabeat/controller/audio_player.dart';
 import 'package:dynabeat/model/music_data_model.dart';
 import 'package:dynabeat/utils/export.dart';
+import 'package:dynabeat/view/audio_player/audio_player_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/music_data_fetch.dart';
+import '../../widgets/component_widgets/music_card_widget.dart';
 
-final _song = Get.put(SongFetcher());
 final _player = Get.put(AudioPlayerServices());
+final _audioplayer = Get.put(AudioPlayerController());
 
 class AudioPlayerScreen extends StatelessWidget {
   const AudioPlayerScreen({Key? key, required this.music}) : super(key: key);
@@ -56,7 +57,42 @@ class AudioPlayerScreen extends StatelessWidget {
                 height: 10,
               ),
               textWidget(music.singers!, 17, FontWeight.w400, Colors.white),
-              customSlider()
+              const SizedBox(
+                height: 10,
+              ),
+              customSlider(),
+              SizedBox(
+                width: 320,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        print(music.mediaUrl!);
+                        await _audioplayer.playMusic(music.mediaUrl!);
+                      },
+                      child: const Icon(
+                        Icons.play_arrow_rounded,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        await _audioplayer.pauseMusic();
+                      },
+                      child: const Icon(
+                        Icons.pause,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    const InkWell(
+                      child: Icon(Icons.play_arrow_rounded),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -65,8 +101,9 @@ class AudioPlayerScreen extends StatelessWidget {
   }
 
   //Slider change function
-  void sliderChange(newPos) {
+  void sliderChange(double newPos) {
     _player.pos.value = newPos;
+    player.seek(Duration(seconds: newPos.toInt()));
     _player.update();
   }
 
@@ -105,6 +142,8 @@ class AudioPlayerScreen extends StatelessWidget {
                 ),
                 child: Slider(
                     value: _player.pos.value,
+                    min: 0.0,
+                    max: double.parse(music.duration!),
                     activeColor: const Color(0xffe6c8ff),
                     inactiveColor: const Color(0xff625d6f),
                     label: "Hello",
@@ -120,7 +159,8 @@ class AudioPlayerScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 textWidget("0:00", 10, FontWeight.w700, Colors.white),
-                textWidget("4:32", 10, FontWeight.w700, Colors.white),
+                textWidget("${int.parse(music.duration!) % 60}", 10,
+                    FontWeight.w700, Colors.white),
               ],
             ),
           ),

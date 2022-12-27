@@ -1,7 +1,6 @@
 import 'package:dynabeat/controller/music_data_fetch.dart';
 import 'package:dynabeat/utils/export.dart';
 import 'package:dynabeat/widgets/component_widgets/album_card_widget.dart';
-import 'package:dynabeat/widgets/component_widgets/mini_player.dart';
 import 'package:dynabeat/widgets/component_widgets/music_card_widget.dart';
 import 'package:dynabeat/widgets/helper_widgets/logo.dart';
 import 'package:flutter/material.dart';
@@ -141,9 +140,6 @@ class HomePage extends StatelessWidget {
                               );
                             }),
                   ).marginSymmetric(horizontal: 7),
-                  MiniPlayer(
-                    music: _songDetails.musicList[_songDetails.index.value],
-                  ),
                 ],
               ),
             ),

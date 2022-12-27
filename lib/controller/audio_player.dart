@@ -1,12 +1,12 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:get/get.dart';
-import 'package:just_audio/just_audio.dart';
 
 import '../model/music_data_model.dart';
 
 class AudioPlayerServices extends GetxController {
   late AudioPlayer _player;
   late MusicData music;
-
+  late AudioCache cache;
   var pos = 0.0.obs;
 
   @override
@@ -16,6 +16,6 @@ class AudioPlayerServices extends GetxController {
   }
 
   void playMusic() async {
-    await _player.setUrl("${music.mediaUrl}");
+    await _player.setSourceUrl("${music.mediaUrl}");
   }
 }

@@ -17,7 +17,7 @@ class SongFetcher extends GetxController {
   void onInit() {
     super.onInit();
     songNameSearch = TextEditingController();
-    fetchSong("thee");
+    fetchSong("thunivu");
   }
 
   void fetchSong(String? songName) async {

@@ -42,7 +42,7 @@ dependencies:
   cached_network_image: ^3.2.3
   iconsax: ^0.0.8
   just_audio: ^0.9.30
-
+  audioplayers: ^1.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
