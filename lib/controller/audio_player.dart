@@ -12,6 +12,7 @@ class AudioPlayerServices extends GetxController {
   @override
   void onInit() {
     _player = AudioPlayer();
+    pos.value = 0.0;
     super.onInit();
   }
 

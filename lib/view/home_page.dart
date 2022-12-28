@@ -1,13 +1,12 @@
 import 'package:dynabeat/controller/music_data_fetch.dart';
 import 'package:dynabeat/utils/export.dart';
-import 'package:dynabeat/widgets/component_widgets/album_card_widget.dart';
 import 'package:dynabeat/widgets/component_widgets/music_card_widget.dart';
 import 'package:dynabeat/widgets/helper_widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-final _songDetails = Get.put(SongFetcher());
+final _songDetails = Get.put(SongFetchController());
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,8 +17,8 @@ class HomePage extends StatelessWidget {
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
       ),
-      child: GetX<SongFetcher>(
-        init: SongFetcher(),
+      child: GetX<SongFetchController>(
+        init: SongFetchController(),
         initState: (_) {},
         builder: (logic) {
           return Scaffold(
@@ -27,11 +26,6 @@ class HomePage extends StatelessWidget {
             body: Container(
               height: MediaQuery.of(context).size.height * 1,
               width: MediaQuery.of(context).size.height * 1,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                alignment: Alignment.topCenter,
-                image: AssetImage("assets/images/BG.png"),
-              )),
               child: ListView(
                 children: [
                   const SizedBox(
@@ -118,28 +112,6 @@ class HomePage extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  textWidget("Albums", 20, FontWeight.w500,
-                          const Color(0xffe6c8ff))
-                      .paddingSymmetric(horizontal: 15),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 220,
-                    child: _songDetails.isLoading.value
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: _songDetails.albumList.length,
-                            itemBuilder: (_, index) {
-                              return AlbumCard(
-                                result: _songDetails.albumList[index],
-                              );
-                            }),
-                  ).marginSymmetric(horizontal: 7),
                 ],
               ),
             ),

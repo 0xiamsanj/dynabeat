@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dynabeat/model/music_data_model.dart';
 import 'package:dynabeat/utils/export.dart';
-import 'package:dynabeat/view/audio_player/audio_player_screen.dart';
+import 'package:dynabeat/view/audio_player_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

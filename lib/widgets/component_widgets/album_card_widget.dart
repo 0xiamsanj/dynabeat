@@ -1,10 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dynabeat/model/music_data_model.dart';
 import 'package:dynabeat/model/result_data_model.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
-
-final AudioPlayer player = AudioPlayer();
 
 class AlbumCard extends StatelessWidget {
   final ResultData result;
@@ -27,11 +23,11 @@ class AlbumCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        await player.setUrl(result.mediaUrl!);
-        await player.play();
+        // await player.setUrl(result.mediaUrl!);
+        // await player.play();
       },
       onDoubleTap: () async {
-        await player.pause();
+        // await player.pause();
       },
       child: Container(
         margin: const EdgeInsets.only(right: 10, left: 10),

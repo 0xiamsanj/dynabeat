@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:dynabeat/model/music_data_model.dart';
 import 'package:dynabeat/model/result_data_model.dart';
-import 'package:dynabeat/services/song_fetch_api.dart';
+import 'package:dynabeat/services/song_fetch_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class SongFetcher extends GetxController {
+class SongFetchController extends GetxController {
   var musicList = <MusicData>[].obs;
   var albumList = <ResultData>[].obs;
   var index = 0.obs;
@@ -24,15 +24,14 @@ class SongFetcher extends GetxController {
     try {
       isLoading(true);
       var song = await SongFetch.fetchSong(songName!);
-      var album = await SongFetch.fetchAlbum(songName);
       print(json.encode(song));
       if (song != "") {
         musicList.value = song;
-        albumList.value = album;
         print(albumList.value.length);
         isLoading.value = false;
       }
     } finally {
+      print("no result");
       isLoading(false);
     }
   }

@@ -2,13 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dynabeat/model/music_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:just_audio/just_audio.dart';
 
 import '../../controller/music_data_fetch.dart';
-import '../../view/audio_player/audio_player_screen.dart';
+import '../../view/audio_player_screen.dart';
 
-final AudioPlayer player = AudioPlayer();
-final _songDetails = Get.put(SongFetcher());
+final _songDetails = Get.put(SongFetchController());
 
 class MusicCard extends StatelessWidget {
   final MusicData music;
@@ -39,9 +37,7 @@ class MusicCard extends StatelessWidget {
         Get.to(() => AudioPlayerScreen(music: _songDetails.musicList[index]));
         print("${music.album}+${music.language}");
       },
-      onDoubleTap: () async {
-        await player.pause();
-      },
+      onDoubleTap: () async {},
       child: Container(
         margin: const EdgeInsets.only(right: 10, left: 10),
         height: 270,
