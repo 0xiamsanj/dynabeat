@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dynabeat/model/music_data_model.dart';
 import 'package:dynabeat/model/result_data_model.dart';
 import 'package:dynabeat/services/song_fetch_services.dart';
@@ -17,21 +15,18 @@ class SongFetchController extends GetxController {
   void onInit() {
     super.onInit();
     songNameSearch = TextEditingController();
-    fetchSong("thunivu");
+    fetchSong("thallumaala");
   }
 
   void fetchSong(String? songName) async {
     try {
       isLoading(true);
       var song = await SongFetch.fetchSong(songName!);
-      print(json.encode(song));
       if (song != "") {
         musicList.value = song;
-        print(albumList.value.length);
         isLoading.value = false;
       }
     } finally {
-      print("no result");
       isLoading(false);
     }
   }

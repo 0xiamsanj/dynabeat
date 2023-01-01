@@ -4,6 +4,7 @@ import 'package:dynabeat/widgets/component_widgets/music_card_widget.dart';
 import 'package:dynabeat/widgets/helper_widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 final _songDetails = Get.put(SongFetchController());
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
         builder: (logic) {
           return Scaffold(
             backgroundColor: const Color(0xff161A1A),
-            body: Container(
+            body: SizedBox(
               height: MediaQuery.of(context).size.height * 1,
               width: MediaQuery.of(context).size.height * 1,
               child: ListView(
@@ -66,7 +67,7 @@ class HomePage extends StatelessWidget {
                               fontWeight: FontWeight.w500),
                           decoration: InputDecoration(
                             suffixIcon: InkWell(
-                              child: Icon(
+                              child: const Icon(
                                 Icons.search,
                                 color: Colors.white,
                               ),
@@ -76,7 +77,7 @@ class HomePage extends StatelessWidget {
                               },
                             ),
                             hintText: "Enter song",
-                            hintStyle: TextStyle(
+                            hintStyle: const TextStyle(
                                 fontFamily: "Gotham", color: Colors.white),
                             border: InputBorder.none,
                           ),
@@ -97,7 +98,9 @@ class HomePage extends StatelessWidget {
                     height: 220,
                     child: _songDetails.isLoading.value
                         ? const Center(
-                            child: CircularProgressIndicator(),
+                            child: SpinKitCircle(
+                              color: Color(0xffe6c8ff),
+                            ),
                           )
                         : ListView.builder(
                             scrollDirection: Axis.horizontal,

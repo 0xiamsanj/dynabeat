@@ -31,11 +31,10 @@ class MusicCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        // await player.setUrl(music.mediaUrl!);
         _songDetails.index.value = index;
-        // await player.play();
-        Get.to(() => AudioPlayerScreen(music: _songDetails.musicList[index]));
-        print("${music.album}+${music.language}");
+        Get.to(() => AudioPlayerScreen(music: _songDetails.musicList[index]),
+            transition: Transition.downToUp,
+            duration: Duration(milliseconds: 500));
       },
       onDoubleTap: () async {},
       child: Container(

@@ -1,4 +1,4 @@
-import 'package:dynabeat/view/home_page.dart';
+import 'package:dynabeat/view/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
       systemNavigationBarDividerColor: Colors.transparent,
     ));
 
-    return const GetMaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: LandingPage(),
     );
   }
 }

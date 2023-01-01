@@ -1,3 +1,4 @@
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dynabeat/controller/audio_player.dart';
 import 'package:dynabeat/controller/audio_player_controller.dart';
@@ -6,124 +7,132 @@ import 'package:dynabeat/utils/export.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../services/audio_player_manager.dart';
+
 final _player = Get.put(AudioPlayerServices());
 final _audioPlayer = Get.put(AudioPlayerController());
+final AudioPlayerManager _audioPlayerManager = AudioPlayerManager();
 
-class AudioPlayerScreen extends StatelessWidget {
+class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen({Key? key, required this.music}) : super(key: key);
   final MusicData music;
 
   @override
+  State<AudioPlayerScreen> createState() => _AudioPlayerScreenState();
+}
+
+class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   void initState() {
+    _audioPlayer.PlayPauseService(widget.music.mediaUrl!);
+
     _player.pos.value = 0;
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.black87,
-        body: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 25),
-          height: MediaQuery.of(context).size.height * 1,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 40,
-              ),
-              Hero(
-                tag: music.song!,
-                child: SizedBox(
-                  height: 350,
-                  width: 350,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: GestureDetector(
-                      onHorizontalDragDown: (s) {
-                        Get.back(closeOverlays: true);
-                      },
-                      child: CachedNetworkImage(
-                        imageUrl: music.image!,
-                        fit: BoxFit.cover,
-                      ),
+    return Scaffold(
+      backgroundColor: const Color(0xff161A1A),
+      body: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 25),
+        height: MediaQuery.of(context).size.height * 1,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 40,
+            ),
+            Hero(
+              tag: widget.music.song!,
+              child: Container(
+                height: 300,
+                width: 300,
+                alignment: Alignment.center,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: GestureDetector(
+                    onHorizontalDragDown: (s) {
+                      Get.back(closeOverlays: true);
+                    },
+                    child: CachedNetworkImage(
+                      imageUrl: widget.music.image!,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                textWidget(
+                    widget.music.song!, 25, FontWeight.w600, Colors.white),
+                const SizedBox(
+                  height: 10,
+                ),
+                textWidget(
+                    widget.music.singers!, 17, FontWeight.w400, Colors.white),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            customSlider(),
+            // _progressBar(),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: 320,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  textWidget(music.song!, 25, FontWeight.w600, Colors.white),
-                  const SizedBox(
-                    height: 10,
+                  InkWell(
+                    onTap: () async {},
+                    child: const Icon(
+                      Icons.skip_previous_rounded,
+                      color: Colors.white,
+                      size: 50,
+                    ),
                   ),
-                  textWidget(music.singers!, 17, FontWeight.w400, Colors.white),
+                  Obx(() {
+                    return InkWell(
+                      splashColor: Colors.transparent,
+                      onTap: () async {
+                        await _audioPlayer.PlayPauseService(
+                            widget.music.mediaUrl!);
+                      },
+                      child: _audioPlayer.isPlaying.value
+                          ? const Icon(
+                              Icons.pause,
+                              color: Colors.white,
+                              size: 50,
+                            )
+                          : const Icon(
+                              Icons.play_arrow_rounded,
+                              color: Colors.white,
+                              size: 50,
+                            ),
+                    );
+                  }),
+                  InkWell(
+                    onTap: () async {},
+                    child: const Icon(
+                      Icons.skip_next_rounded,
+                      color: Colors.white,
+                      size: 50,
+                    ),
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              customSlider(),
-              SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                width: 320,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        print(music.mediaUrl!);
-                      },
-                      child: const Icon(
-                        Icons.skip_previous_rounded,
-                        color: Colors.white,
-                        size: 50,
-                      ),
-                    ),
-                    Obx(() {
-                      return InkWell(
-                        splashColor: Colors.transparent,
-                        onTap: () async {
-                          await _audioPlayer.PlayPauseService(music.mediaUrl!);
-                        },
-                        child: _audioPlayer.isPlaying.value
-                            ? const Icon(
-                                Icons.pause,
-                                color: Colors.white,
-                                size: 50,
-                              )
-                            : Icon(
-                                Icons.play_arrow_rounded,
-                                color: Colors.white,
-                                size: 50,
-                              ),
-                      );
-                    }),
-                    InkWell(
-                      onTap: () async {
-                        print(music.mediaUrl!);
-                      },
-                      child: const Icon(
-                        Icons.skip_next_rounded,
-                        color: Colors.white,
-                        size: 50,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+          ],
         ),
       ),
     );
@@ -134,6 +143,42 @@ class AudioPlayerScreen extends StatelessWidget {
     _player.pos.value = newPos;
     _audioPlayer.seekMusic(newPos);
     _player.update();
+  }
+
+  Widget _progressBar() {
+    return StatefulBuilder(builder: (context, setState) {
+      return StreamBuilder<DurationState>(
+        stream: _audioPlayerManager.durationState,
+        builder: (context, snapshot) {
+          final durationState = snapshot.data;
+          final progress = durationState?.progress ?? Duration.zero;
+          final buffered = durationState?.buffered ?? Duration.zero;
+          final total = durationState?.total ?? Duration.zero;
+          return ProgressBar(
+            progress: progress,
+            buffered: buffered,
+            total: total,
+            onSeek: _audioPlayerManager.player.seek,
+            onDragUpdate: (details) {
+              debugPrint('${details.timeStamp}, ${details.localPosition}');
+            },
+            barHeight: 20,
+            baseBarColor: Colors.grey,
+            progressBarColor: Colors.purple,
+            bufferedBarColor: Colors.white,
+            thumbColor: Colors.red,
+            thumbGlowColor: Colors.red.shade100,
+            barCapShape: BarCapShape.round,
+            thumbRadius: 20,
+            thumbCanPaintOutsideBar: true,
+            timeLabelLocation: TimeLabelLocation.below,
+            timeLabelType: TimeLabelType.remainingTime,
+            timeLabelTextStyle: TextStyle(color: Colors.white),
+            timeLabelPadding: 10,
+          );
+        },
+      );
+    });
   }
 
   //Slider Widget with duration
@@ -172,7 +217,7 @@ class AudioPlayerScreen extends StatelessWidget {
                 child: Slider(
                     value: _player.pos.value,
                     min: 0.0,
-                    max: double.parse(music.duration!),
+                    max: double.parse(widget.music.duration!),
                     activeColor: const Color(0xffe6c8ff),
                     inactiveColor: const Color(0xff625d6f),
                     onChanged: (newPos) {
@@ -187,7 +232,7 @@ class AudioPlayerScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 textWidget("0:00", 10, FontWeight.w700, Colors.white),
-                textWidget("${int.parse(music.duration!) % 60}", 10,
+                textWidget("${int.parse(widget.music.duration!) % 60}", 10,
                     FontWeight.w700, Colors.white),
               ],
             ),
