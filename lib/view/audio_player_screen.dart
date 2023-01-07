@@ -36,34 +36,14 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
         margin: const EdgeInsets.symmetric(horizontal: 25),
         height: MediaQuery.of(context).size.height * 1,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 40,
+              height: 100,
             ),
-            Hero(
-              tag: widget.music.song!,
-              child: Container(
-                height: 300,
-                width: 300,
-                alignment: Alignment.center,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: GestureDetector(
-                    onHorizontalDragDown: (s) {
-                      Get.back(closeOverlays: true);
-                    },
-                    child: CachedNetworkImage(
-                      imageUrl: widget.music.image!,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            _albumArt(),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,10 +60,18 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
             const SizedBox(
               height: 20,
             ),
-            customSlider(),
+            _customSlider(),
             // _progressBar(),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              width: 320,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  textWidget("0:00", 10, FontWeight.w700, Colors.white),
+                  textWidget("${int.parse(widget.music.duration!) % 60}", 10,
+                      FontWeight.w700, Colors.white),
+                ],
+              ),
             ),
             SizedBox(
               width: 320,
@@ -181,8 +169,31 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
     });
   }
 
+  Widget _albumArt() {
+    return Hero(
+      tag: widget.music.song!,
+      child: Container(
+        height: 350,
+        width: 350,
+        alignment: Alignment.center,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: GestureDetector(
+            onHorizontalDragDown: (s) {
+              Get.back(closeOverlays: true);
+            },
+            child: CachedNetworkImage(
+              imageUrl: widget.music.image!,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   //Slider Widget with duration
-  Widget customSlider() {
+  Widget _customSlider() {
     return SizedBox(
       width: 450,
       height: 50,
@@ -226,17 +237,6 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
               ),
             );
           }),
-          SizedBox(
-            width: 320,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                textWidget("0:00", 10, FontWeight.w700, Colors.white),
-                textWidget("${int.parse(widget.music.duration!) % 60}", 10,
-                    FontWeight.w700, Colors.white),
-              ],
-            ),
-          ),
         ],
       ),
     );
