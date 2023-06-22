@@ -29,6 +29,13 @@
             {
               "client_id": "30372826235-8ptnd3lv81tk8fajh42lj0nq9ll5rp82.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "30372826235-ju8ts8pmfo30cd73c76v0lkpoi3lkhsg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dynabeat"
+              }
             }
           ]
         }

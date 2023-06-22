@@ -1,7 +1,6 @@
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
-
-const url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3';
+const url = '';
 
 class AudioPlayerManager {
   final player = AudioPlayer();
