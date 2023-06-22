@@ -8,6 +8,7 @@ class AudioPlayerController extends GetxController {
 
   @override
   void onInit() {
+    super.onInit();
     isPlaying.value = false;
     audioState = PlayerState.stopped;
   }

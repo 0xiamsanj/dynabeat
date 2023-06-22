@@ -5,7 +5,7 @@ class SongFetch {
   static var client = http.Client();
 
   static Future<List<MusicData>> fetchSong(String query) async {
-    var uri = "https://dynabeat.onrender.com/song/?query=$query";
+    var uri = "https://music-api-qpr2.onrender.com/song/?query=$query";
     var url = Uri.parse(uri);
     var response = await client.get(url);
 

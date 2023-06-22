@@ -1,4 +1,3 @@
-import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dynabeat/controller/audio_player.dart';
 import 'package:dynabeat/controller/audio_player_controller.dart';
@@ -7,11 +6,9 @@ import 'package:dynabeat/utils/export.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../services/audio_player_manager.dart';
 
 final _player = Get.put(AudioPlayerServices());
 final _audioPlayer = Get.put(AudioPlayerController());
-final AudioPlayerManager _audioPlayerManager = AudioPlayerManager();
 
 class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen({Key? key, required this.music}) : super(key: key);
@@ -23,6 +20,7 @@ class AudioPlayerScreen extends StatefulWidget {
 
 class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   void initState() {
+    super.initState();
     _audioPlayer.PlayPauseService(widget.music.mediaUrl!);
 
     _player.pos.value = 0;
@@ -128,46 +126,11 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
 
   //Slider change function
   void sliderChange(double newPos) {
-    _player.pos.value = newPos;
+    // _player.pos.value = newPos;
     _audioPlayer.seekMusic(newPos);
     _player.update();
   }
 
-  Widget _progressBar() {
-    return StatefulBuilder(builder: (context, setState) {
-      return StreamBuilder<DurationState>(
-        stream: _audioPlayerManager.durationState,
-        builder: (context, snapshot) {
-          final durationState = snapshot.data;
-          final progress = durationState?.progress ?? Duration.zero;
-          final buffered = durationState?.buffered ?? Duration.zero;
-          final total = durationState?.total ?? Duration.zero;
-          return ProgressBar(
-            progress: progress,
-            buffered: buffered,
-            total: total,
-            onSeek: _audioPlayerManager.player.seek,
-            onDragUpdate: (details) {
-              debugPrint('${details.timeStamp}, ${details.localPosition}');
-            },
-            barHeight: 20,
-            baseBarColor: Colors.grey,
-            progressBarColor: Colors.purple,
-            bufferedBarColor: Colors.white,
-            thumbColor: Colors.red,
-            thumbGlowColor: Colors.red.shade100,
-            barCapShape: BarCapShape.round,
-            thumbRadius: 20,
-            thumbCanPaintOutsideBar: true,
-            timeLabelLocation: TimeLabelLocation.below,
-            timeLabelType: TimeLabelType.remainingTime,
-            timeLabelTextStyle: TextStyle(color: Colors.white),
-            timeLabelPadding: 10,
-          );
-        },
-      );
-    });
-  }
 
   Widget _albumArt() {
     return Hero(
